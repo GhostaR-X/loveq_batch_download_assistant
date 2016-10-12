@@ -82,7 +82,12 @@ class LOVEQ:
                 save_file = self.get_save_filename(  start_date ) 
 
                 print ("Downloading",target_url,",Waiting...")
-                urllib.request.urlretrieve( target_url, save_file )
+                try :
+                    urllib.request.urlretrieve( target_url, save_file )
+                    print("LoveQ Download Task Finish!")
+                except urllib.request.HTTPError as e :                   
+                    print("LoveQ Download Task Fail!")
+                    print("Error Code:", e.getcode())
                 
         else:   #end_date != None
             print("LoveQ Download Tasks from",start_date,"to",end_date,"Start!")            
@@ -104,14 +109,20 @@ class LOVEQ:
                     target_url = self.get_target_url(  start_date )
                     save_file = self.get_save_filename(  start_date )
                     print ("Downloading",target_url,",Waiting...")
-                    urllib.request.urlretrieve( target_url, save_file )
+                    try :
+                        urllib.request.urlretrieve( target_url, save_file )
+                    except urllib.request.HTTPError as e :
+                        print("Download   ",target_url,"Fail!") 
+                        print("Error Code:", e.getcode())                          
 
                     start_date = start_date + timedelta( days = sign )  
 
                 if end_date == start_date :
                     break 
+
+            print("LoveQ Download Tasks Finish!")
         
-        print("LoveQ Download Tasks Finish!")
+        
 
 
 
