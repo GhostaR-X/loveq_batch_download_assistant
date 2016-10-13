@@ -68,8 +68,16 @@ class LOVEQ:
                       " -h(-help) <print this menu>\n" \
                       " example:python3 loveq.py -o /home/ghostar/nfs -s 2016-9-1 -e 2016-10-10"
                     )
-                
+                return 0
             i += 1
+        return 1
+
+    def cbfunc_progress( self, blocknum, blocksize, totalsize ) :  #callbackfunc_progress
+        percent = 100.0 * blocknum * blocksize / totalsize
+        print( "%3d%%" %(percent),end='\r')
+        if percent >= 100 :
+            percent = 100
+            print("")   #change line                     
 
     def start_tasks( self, start_date, end_date ):
         if end_date == None :
@@ -78,12 +86,12 @@ class LOVEQ:
                 print("It is not an available date for download!")
                 exit() 
             else:
-                target_url = self.get_target_url(  start_date )
-                save_file = self.get_save_filename(  start_date ) 
+                target_url = self.get_target_url( start_date )
+                save_file = self.get_save_filename( start_date ) 
 
-                print ("Downloading",target_url,",Waiting...")
+                print ("Downloading %s,waiting..." %(target_url))
                 try :
-                    urllib.request.urlretrieve( target_url, save_file )
+                    urllib.request.urlretrieve( target_url, save_file, self.cbfunc_progress )
                     print("LoveQ Download Task Finish!")
                 except urllib.request.HTTPError as e :                   
                     print("LoveQ Download Task Fail!")
@@ -108,9 +116,9 @@ class LOVEQ:
                     #print(start_date)
                     target_url = self.get_target_url(  start_date )
                     save_file = self.get_save_filename(  start_date )
-                    print ("Downloading",target_url,",Waiting...")
+                    print ("Downloading %s,waiting..." %(target_url))
                     try :
-                        urllib.request.urlretrieve( target_url, save_file )
+                        urllib.request.urlretrieve( target_url, save_file,self.cbfunc_progress )
                     except urllib.request.HTTPError as e :
                         print("Download   ",target_url,"Fail!") 
                         print("Error Code:", e.getcode())                          
@@ -134,6 +142,6 @@ if __name__ == '__main__':
     #dt2 = datetime(2016,10,9)
     #loveq.start_tasks( dt1,dt2 )
 
-    loveq.process_cmdline( sys.argv )
-    loveq.start_tasks( loveq.start_date,loveq.end_date )
+    if loveq.process_cmdline( sys.argv ) == 1 :
+        loveq.start_tasks( loveq.start_date,loveq.end_date )
 
