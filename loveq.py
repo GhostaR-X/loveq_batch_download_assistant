@@ -1,6 +1,15 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-# --------------
+# ------------------------------------------------------------------------------
+# Author : GhostaR
+# Email  : GhostaR@163.com
+# Date   : 2016-11-02
+# Descripton : This application is use for batch downloading loveq programs.
+#              You can type "python loveq.py -help" in command line for detail  
+# ------------------------------------------------------------------------------
+
+__author__ = "GhostaR"
+__date__   = "2016-11-02"
 
 import urllib.request
 from datetime import datetime
@@ -60,12 +69,19 @@ class LOVEQ:
                 i += 1
                 self.end_date = datetime.strptime(argv[0][i],'%Y-%m-%d')
                 #print( "end_date=",self.end_date )
+            elif argv[0][i] == "-v" or argv[0][i] == "-version":
+                print("Version: V1.0.0.1 \n"
+                      "Author : GhostaR\n"   
+                    )
+                return 0
+                #print( "end_date=",self.end_date )
             elif argv[0][i] == "-h" or argv[0][i] == "-help":
                 print("Usage:python3 loveq.py \n"  
                       " -o <setup Output save directory,default directory is '.'>\n" \
                       " -s <setup download Start date,default date is today>\n" \
                       " -e <setup download End date,default is none>\n" \
                       " -h(-help) <print this menu>\n" \
+                      " -v(-version) <print version and author information>\n" \
                       " example:python3 loveq.py -o /home/ghostar/nfs -s 2016-9-1 -e 2016-10-10"
                     )
                 return 0
@@ -129,18 +145,11 @@ class LOVEQ:
                     break 
 
             print("LoveQ Download Tasks Finish!")
-        
-        
-
-
 
 
 if __name__ == '__main__':
 
     loveq = LOVEQ()
-    #dt1 = datetime(2016,10,1)
-    #dt2 = datetime(2016,10,9)
-    #loveq.start_tasks( dt1,dt2 )
 
     if loveq.process_cmdline( sys.argv ) == 1 :
         loveq.start_tasks( loveq.start_date,loveq.end_date )
