@@ -76,13 +76,12 @@ class LOVEQ:
                 return 0
                 #print( "end_date=",self.end_date )
             elif argv[0][i] == "-h" or argv[0][i] == "-help":
-                print("Usage:python3 loveq.py \n"  
+                print("Usage:python loveq.py \n"  
                       " -o <setup Output save directory,default directory is '.'>\n" \
                       " -s <setup download Start date,default date is today>\n" \
                       " -e <setup download End date,default is none>\n" \
                       " -h(-help) <print this menu>\n" \
                       " -v(-version) <print version and author information>\n" \
-                      " example:python3 loveq.py -o /home/ghostar/nfs -s 2016-9-1 -e 2016-10-10"
                     )
                 return 0
             i += 1
@@ -105,7 +104,7 @@ class LOVEQ:
                 target_url = self.get_target_url( start_date )
                 save_file = self.get_save_filename( start_date ) 
 
-                print ("Downloading %s,waiting..." %(target_url))
+                print ("Downloading %s ,waiting..." %(target_url))
                 try :
                     urllib.request.urlretrieve( target_url, save_file, self.cbfunc_progress )
                     print("LoveQ Download Task Finish!")
@@ -132,7 +131,7 @@ class LOVEQ:
                     #print(start_date)
                     target_url = self.get_target_url(  start_date )
                     save_file = self.get_save_filename(  start_date )
-                    print ("Downloading %s,waiting..." %(target_url))
+                    print ("Downloading %s ,waiting..." %(target_url))
                     try :
                         urllib.request.urlretrieve( target_url, save_file,self.cbfunc_progress )
                     except urllib.request.HTTPError as e :
@@ -148,7 +147,9 @@ class LOVEQ:
 
 
 if __name__ == '__main__':
-
+    print("*****************************************************")
+    print("****Welcome using LoveQ Batch Download Assistant!****")
+    print("*****************************************************")
     loveq = LOVEQ()
 
     if loveq.process_cmdline( sys.argv ) == 1 :
